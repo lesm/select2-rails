@@ -1,9 +1,11 @@
 module Select2
   module Rails
     class Engine < ::Rails::Engine
-      initializer :images do |app|
-        app.config.assets.precompile +=
-          %w(select2.png select2-spinner.gif select2x2.png)
+      # NOTE: this is necessary for rails 5
+      initializer 'select2-rails.assets.precompile' do |app|
+        %w(stylesheets javascripts).each do |sub|
+          app.config.assets.paths << root.join('vendor', 'assets', sub).to_s
+        end
       end
     end
   end
